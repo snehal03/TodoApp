@@ -1,0 +1,152 @@
+
+<div class="container row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-2">
+		<select ng-model="criteria" class="form-control" required
+			ng-change="searchTodoes()">
+			<option value="">Select Criteria</option>
+			<option ng-repeat="data in dropdownData" value="{{data.value}}">{{data.name}}
+			</option>
+		</select>
+	</div>
+	<div class="col-sm-2">
+		<input type="text" ng-show="showText" ng-model="searchValue"
+			class="form-control" required> <input type="date"
+			ng-show="!showText" ng-model="searchValue" class="form-control"
+			required>
+	</div>
+	<div class="col-sm-1 glyphicon glyphicon-search" ng-click="search()">
+		<!-- <button ng-mode="search" ng-click="search()">search</</button> -->
+	</div>
+</div>
+<div class="container">
+	<div class="displayMessage">
+		<h5 ng-class="PageMsgClass">{{PageMsg}}</h5>
+	</div>
+
+	<div class="row headerRow">
+		<input type="button" class="btn btn-primary" value="+Add"
+			ng-model="addTodo" data-toggle="modal" ng-click="addTodo()"
+			data-target="#todoModal">
+	</div>
+
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th width="30%">Title</th>
+				<th width="20%" ng-click="sort('createdDate')">Created Date <span
+					ng-class="sortClass" ng-show="columnName=='createdDate'"></span>
+				</th>
+				<th width="20%" ng-click="sort('dueDate')">Due Date <span
+					ng-class="sortClass" ng-show="columnName=='dueDate'"></span></th>
+				<th width="20%">Status <select class="form-control filterClass"
+					ng-model="filterName" ng-change="applyFilter()">
+						<option value="">Select Filter</option>
+						<option ng-repeat="filter in filterOptions">{{filter}}</option>
+				</select>
+				</th>
+				<th width="5%">Action</th>
+			</tr>
+		</thead>
+		<tbody ng-show="showTodoList">
+			<tr ng-repeat="todo in todoList | orderBy:columnName:reverse"
+				id="tr{{todo.todoId}}" ng-class-odd="'odd'" ng-class-even="'even'">
+				<td width="30%">{{todo.todoName}}</td>
+				<td width="20%">{{todo.createdDate | date}}</td>
+				<td width="20%">{{todo.dueDate | date}}</td>
+				<td width="20%"><select ng-model="changeTodoStatus"
+					class="form-control"
+					ng-change="changeStatus(todo.todoId,changeTodoStatus)">
+						<option ng-repeat="st in status" value="{{st}}"
+							ng-selected="todo.todoStatus==st">{{st}}</option>
+				</select></td>
+				<td width="5%"><span class="glyphicon glyphicon-pencil"
+					ng-model="editTodo" ng-click="editTodo(todo)"></span> <span
+					class="glyphicon glyphicon-remove" ng-model="deleteTodo"
+					ng-click="deleteTodo(todo)" data-toggle="modal"
+					ng-click="addTodo()" data-target="#deleteTodoModal"></span></td>
+			</tr>
+		</tbody>
+		<tbody ng-show="!showTodoList">
+			<tr>
+				<td colspan="5"><center>{{tableMsg}}</center></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div id="todoModal" class="modal fade modalSize">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">{{modalHeader}}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row inputTypeElement">
+					<div class="col-xs-12">
+						<h5 ng-class="ModalMsgClass" ng-show="showErrorMessage">{{ModalMsg}}</h5>
+					</div>
+				</div>
+				<div class="row inputTypeElement">
+					<div class="col-xs-3">Title :</div>
+					<div class="col-xs-7">
+						<input type="text" class="form-control" ng-model="todo.todoName"
+							required>
+					</div>
+				</div>
+				<div class="row inputTypeElement">
+					<div class="col-xs-3">Text :</div>
+					<div class="col-xs-7">
+						<textarea class="form-control" rows="4" cols="50"
+							ng-model="todo.todoText" required></textarea>
+					</div>
+				</div>
+				<div class="row inputTypeElement">
+					<div class="col-xs-3">Due Date :</div>
+					<div class="col-xs-7">
+						<input type="date" class="form-control" ng-model="todo.dueDate"
+							required>
+					</div>
+				</div>
+				<div class="row inputTypeElement">
+					<center>
+						<button class="btn btn-default" ng-if="addFlag"
+							ng-click="createTodo()">Create</button>
+						<button class="btn btn-default" ng-if="!addFlag"
+							ng-click="updateTodo()">Update</button>
+						<button class="btn btn-default" data-dismiss="modal">Cancel</button>
+					</center>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="deleteTodoModal" class="modal fade">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Delete Todo</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row inputTypeElement">
+					<div class="col-xs-12">
+						<h5 ng-class="ModalMsgClass" ng-show="showErrorMessage">{{ModalMsg}}</h5>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-xs-12">Are you sure you wat to delete todo?</div>
+				</div>
+				<div class="row inputTypeElement">
+					<center>
+						<button class="btn btn-default" ng-click="confirmDeleteTodo()">Delete</button>
+						<button class="btn btn-default" data-dismiss="modal">Cancel</button>
+					</center>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
