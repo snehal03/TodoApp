@@ -28,7 +28,7 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource"
 		p:basename="Messages" />
 	<context:property-placeholder
-		location="classpath:hibernate.properties,classpath:config.properties" />
+		location="classpath:hibernate.properties" />
 
 	<!-- Database Configuration Beans -->
 	<beans:bean id="dataSource"
