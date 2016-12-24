@@ -1,0 +1,54 @@
+.header {
+    background:#F0F0F0;
+    border:1px solid #CCC;
+    margin : 0px;
+    font-size : 50px;
+    color: #C2008A;
+    text-align: center;
+}
+.error-msg
+{
+	color:red;
+}
+.success-msg {
+	color: green;
+}
+.displayMessage
+{
+	padding:20px 20px 0px 20px;
+	
+}
+.odd {
+	background-color: white;
+}
+
+.even {
+	/* background-color: #e5e5e5; */
+	background-color: #EBEBEB;	
+}
+.headerRow {
+
+	float:right;
+	margin-left:0px!important;
+	margin-right:0px!important;
+}
+.filterClass {
+	float:right;
+	width:70% !important;
+}
+.Completed {
+	background-color:green !important;
+}
+.Pending {
+	background-color:red !important;
+}
+.inputTypeElement
+{
+	padding:20px 20px 0px 20px;
+	
+}
+.modalSize
+{
+	width:100% !important;
+	margin-top:100px;
+}
